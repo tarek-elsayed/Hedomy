@@ -7,8 +7,12 @@ import 'package:image_picker/image_picker.dart';
 int _currentIndex = 0;
 File image;
 DataBaseHelper x = new DataBaseHelper();
-
+var obj;
 class AfterSignIn extends StatefulWidget {
+
+  AfterSignIn(var userObj){
+    obj = userObj;
+  }
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -18,6 +22,11 @@ class AfterSignIn extends StatefulWidget {
 }
 
 class _AfterSignIn extends State<AfterSignIn> {
+
+  _AfterSignIn(){
+    print("obj $obj");
+  }
+
   List<Widget> Pages = <Widget>[
     Home(),
     Profile(),
@@ -60,6 +69,9 @@ class _AfterSignIn extends State<AfterSignIn> {
     );
   }
 }
+
+
+
 
 class Home extends StatefulWidget {
   @override
@@ -151,6 +163,10 @@ class _Home extends State<Home> {
   }
 }
 
+
+
+
+
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -172,8 +188,8 @@ class _Profile extends State<Profile> {
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () {
             setState(() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => AfterSignIn()));
+              // Navigator.of(context)
+              //     .push(MaterialPageRoute(builder: (context) => AfterSignIn()));
               print("${_currentIndex} ali");
               _currentIndex = 0;
             });
@@ -282,7 +298,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("Name"),
-              subtitle: Text("Tarek Elsayed"),
+              subtitle: Text(obj['name']),
               leading: Icon(
                 Icons.person,
                 color: Colors.black,
@@ -294,7 +310,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("Phone"),
-              subtitle: Text("01156144199"),
+              subtitle: Text(obj['phone']),
               leading: Icon(
                 Icons.phone,
                 color: Colors.black,
@@ -306,7 +322,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("E-mail"),
-              subtitle: Text("Tarek.elside@yahoo.com"),
+              subtitle: Text(obj['email']),
               leading: Icon(
                 Icons.email,
                 color: Colors.black,
@@ -323,11 +339,11 @@ class _Profile extends State<Profile> {
   }
 
   void PickImage() async {
-    var pickimage = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-    setState(() {
-      image = pickimage;
-    });
+    // var pickimage = await ImagePicker.pickImage(source: ImageSource.gallery);
+    //
+    // setState(() {
+    //   image = pickimage;
+    // });
   }
   
 

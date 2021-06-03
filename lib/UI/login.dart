@@ -128,8 +128,8 @@ class _loginState extends State<login> {
           bool result =_x.currentState.validate();
           if(result==true){
             print("true");
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => AfterSignIn()));
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (context) => AfterSignIn()));
             print('Login');
           }
           else{
