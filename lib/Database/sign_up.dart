@@ -1,32 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hedomy/Database/constrain.dart';
+
+import 'package:hedomy/models/userModel.dart';
 
 import '../UI/aftersignin.dart';
 
-signUp(String email, String password, String name, String phone,BuildContext context) {
-  FirebaseAuth.instance.createUserWithEmailAndPassword(
-    email: email,
-    password: password,
-  ).then((value) =>
-  {
-    loadData(value.user.uid, name, phone, email ,context),
-
-  }).catchError((onError) => {
-    print(onError.toString()),
-  });
+signUp(String email, String password, String name, String phone,
+    BuildContext context) {
+  FirebaseAuth.instance
+      .createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      )
+      .then((value) => {
+            UID = value.user.uid,
+            loadData(value.user.uid, name, phone, email, context),
+          })
+      .catchError((onError) => {
+            print(onError.toString()),
+          });
 }
 
-loadData(String id, String name, String phone, String email,BuildContext context) {
-  final obj = {
-    "name": name,
-    "email": email,
-    'phone': phone,
-    "uId": id,
-  };
-  FirebaseFirestore.instance.collection("users").doc(id).set(obj).then((value) => {
-    Navigator.push(context,MaterialPageRoute(builder: (context) => AfterSignIn(obj))),
-
-  });
+loadData(
+    String id, String name, String phone, String email, BuildContext context) {
+  UserModel userModel = UserModel(
+    uid: id,
+    name: name,
+    email: email,
+    phone: phone,
+    image: imagePath,
+  );
+  // print("user ${userModel.toMap()}");
+  FirebaseFirestore.instance
+      .collection("users")
+      .doc(id)
+      .set(userModel.toMap())
+      .then((value) => {
+            print("user ${userModel.toMap()}"),
+            print("user 1234"),
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AfterSignIn(userModel))),
+          });
 }

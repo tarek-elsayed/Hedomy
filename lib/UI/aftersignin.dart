@@ -2,17 +2,20 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hedomy/Database/DB_Helper.dart';
+import 'package:hedomy/models/userModel.dart';
 import 'package:image_picker/image_picker.dart';
 
 int _currentIndex = 0;
 File image;
-DataBaseHelper x = new DataBaseHelper();
-var obj;
-class AfterSignIn extends StatefulWidget {
+DataBaseHelper DB = new DataBaseHelper();
 
-  AfterSignIn(var userObj){
-    obj = userObj;
+UserModel userModel;
+
+class AfterSignIn extends StatefulWidget {
+  AfterSignIn(final userObj) {
+    userModel = userObj;
   }
+
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -22,9 +25,8 @@ class AfterSignIn extends StatefulWidget {
 }
 
 class _AfterSignIn extends State<AfterSignIn> {
-
-  _AfterSignIn(){
-    print("obj $obj");
+  _AfterSignIn() {
+    print("obj $userModel");
   }
 
   List<Widget> Pages = <Widget>[
@@ -69,9 +71,6 @@ class _AfterSignIn extends State<AfterSignIn> {
     );
   }
 }
-
-
-
 
 class Home extends StatefulWidget {
   @override
@@ -163,10 +162,6 @@ class _Home extends State<Home> {
   }
 }
 
-
-
-
-
 class Profile extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -176,8 +171,6 @@ class Profile extends StatefulWidget {
 }
 
 class _Profile extends State<Profile> {
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -254,9 +247,9 @@ class _Profile extends State<Profile> {
                   // ),
                   CircleAvatar(
                     radius: 85,
-                    backgroundColor: Colors.white70,
+                    backgroundColor: Colors.black,
                     child: CircleAvatar(
-                      backgroundImage: image == null ? null : FileImage(image),
+                      backgroundImage: image ==null ?NetworkImage(userModel.image) :FileImage(image),
                       radius: 80,
                     ),
                   ),
@@ -285,7 +278,8 @@ class _Profile extends State<Profile> {
                           color: Colors.black,
                         ),
                         onTap: () {
-                          PickImage();
+                          DB.pickImage();
+
                         },
                       ),
                     ),
@@ -298,7 +292,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("Name"),
-              subtitle: Text(obj['name']),
+              subtitle: Text(userModel.name),
               leading: Icon(
                 Icons.person,
                 color: Colors.black,
@@ -310,7 +304,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("Phone"),
-              subtitle: Text(obj['phone']),
+              subtitle: Text(userModel.phone),
               leading: Icon(
                 Icons.phone,
                 color: Colors.black,
@@ -322,7 +316,7 @@ class _Profile extends State<Profile> {
             ),
             ListTile(
               title: Text("E-mail"),
-              subtitle: Text(obj['email']),
+              subtitle: Text(userModel.email),
               leading: Icon(
                 Icons.email,
                 color: Colors.black,
@@ -338,13 +332,5 @@ class _Profile extends State<Profile> {
     );
   }
 
-  void PickImage() async {
-    // var pickimage = await ImagePicker.pickImage(source: ImageSource.gallery);
-    //
-    // setState(() {
-    //   image = pickimage;
-    // });
-  }
-  
 
 }

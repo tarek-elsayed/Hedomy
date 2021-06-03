@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hedomy/Database/sign_in.dart';
 import 'package:hedomy/UI/aftersignin.dart';
 import 'package:hedomy/UI/guest.dart';
 import 'package:hedomy/UI/signup.dart';
@@ -10,7 +11,6 @@ class login extends StatefulWidget {
 }
 
 /////////////
-
 
 /////////////
 
@@ -37,13 +37,16 @@ class _loginState extends State<login> {
               ]),
           height: 60,
           child: TextFormField(
-            controller: name,
+            controller: email,
             validator: (value) {
               // RegExp RE=new RegExp(r"^[A-Z|a-z]{3,20}[\s][A-Z|a-z]{3,20}$");
-              RegExp RE=new RegExp(r"^[A-Z|a-z]{3,20}[.|_][A-Z|a-z]{3,20}@gmail.com|@yahoo.com$");
-              if(RE.hasMatch(value)==false){
+              RegExp RE = new RegExp(
+                  r"^[A-Z|a-z]{3,20}[.|_][A-Z|a-z]{3,20}@gmail.com|@yahoo.com$");
+              if (RE.hasMatch(value) == false) {
                 return "Enter Correct Email";
-              }else{return null;}
+              } else {
+                return null;
+              }
             },
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
@@ -87,14 +90,14 @@ class _loginState extends State<login> {
                     color: Colors.black, blurRadius: 6, offset: Offset(0, 2))
               ]),
           height: 60,
-
           child: TextFormField(
-            validator: (value){
-              RegExp RE=new RegExp(r"^[A-Z|a-z|0-9|{$,#,&,*}]{6,100}$");
-              if(RE.hasMatch(value)==false){
-                return"Please Enter Your password Correct ";
+            validator: (value) {
+              RegExp RE = new RegExp(r"^[A-Z|a-z|0-9|{$,#,&,*}]{6,100}$");
+              if (RE.hasMatch(value) == false) {
+                return "Please Enter Your password Correct ";
+              } else {
+                return null;
               }
-              else{return null;}
             },
             controller: password,
             obscureText: true,
@@ -125,16 +128,16 @@ class _loginState extends State<login> {
       child: RaisedButton(
         elevation: 5,
         onPressed: () {
-          bool result =_x.currentState.validate();
-          if(result==true){
+          bool result = _x.currentState.validate();
+          if (result == true) {
             print("true");
+            signIn(email.text, password.text, context);
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (context) => AfterSignIn()));
             print('Login');
-          }
-          else{
+          } else {
             print('false');
-          };
+          }
 
         },
         padding: EdgeInsets.all(15),
@@ -178,7 +181,8 @@ class _loginState extends State<login> {
       ),
     );
   }
-  TextEditingController name = new TextEditingController();
+
+  TextEditingController email = new TextEditingController();
   TextEditingController password = new TextEditingController();
   final _x = GlobalKey<FormState>();
 
