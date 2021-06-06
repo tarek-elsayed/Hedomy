@@ -2,18 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hedomy/Database/DB_Helper.dart';
+import 'package:hedomy/Database/constrain.dart';
+import 'package:hedomy/UI/edit_profile.dart';
+import 'package:hedomy/models/prandModel.dart';
 import 'package:hedomy/models/userModel.dart';
 import 'package:image_picker/image_picker.dart';
 
 int _currentIndex = 0;
-File image;
-DataBaseHelper DB = new DataBaseHelper();
+
+DataBaseHelper DB = new DataBaseHelper(userModel);
 
 UserModel userModel;
-
+List<PrandModel> brandsList = DB.Users;
 class AfterSignIn extends StatefulWidget {
-  AfterSignIn(final userObj) {
-    userModel = userObj;
+  AfterSignIn(final userObj1,final userObj2) {
+    userModel = userObj1;
+    prandModel=userObj2;
   }
 
   @override
@@ -81,8 +85,12 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  int _currentIndex = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
+  }
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -92,8 +100,6 @@ class _Home extends State<Home> {
           icon: Icon(Icons.arrow_back_outlined),
           onPressed: () {
             setState(() {
-              // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AfterSignIn()));
-              // print("${_currentIndex} tarek" );
               _currentIndex = 0;
             });
           },
@@ -112,16 +118,18 @@ class _Home extends State<Home> {
       body: Container(
         padding: EdgeInsets.only(top: 20),
         decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
               Color(0xff27408b),
               Color(0x8027408b),
               Color(0xff27408b),
-            ])),
+            ],
+          ),
+        ),
         child: ListView.builder(
-          itemCount: 10,
+          itemCount: DB.Users.length,
           itemBuilder: (context, index) {
             return Column(
               children: [
@@ -131,21 +139,21 @@ class _Home extends State<Home> {
                   width: MediaQuery.of(context).size.width - 50,
                   child: ListTile(
                     title: Text(
-                      "Town Team",
+                      "${brandsList[index].name}",
                       style: TextStyle(fontSize: 24),
                     ),
                     subtitle: Stack(
                       children: [
-                        Text("01552639568"),
+                        Text("${brandsList[index].phone}"),
                         Padding(
                           padding: EdgeInsets.only(top: 20),
-                          child: Text("St Al Haram "),
+                          child: Text("${brandsList[index].address}"),
                         ),
                       ],
                     ),
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(
-                          "https://www.marni.com/12/12386489MT_13_n_r.jpg"),
+                          "${brandsList[index].image}"),
                       radius: 30,
                     ),
                   ),
@@ -212,13 +220,13 @@ class _Profile extends State<Profile> {
         child: ListView(
           padding: EdgeInsets.only(left: 16, top: 25, right: 16),
           children: [
-            Text(
-              "Edit Profile",
-              style: TextStyle(
-                fontSize: 25,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+            // Text(
+            //   "Profile",
+            //   style: TextStyle(
+            //     fontSize: 25,
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            // ),
             SizedBox(
               height: 25,
             ),
@@ -249,41 +257,42 @@ class _Profile extends State<Profile> {
                     radius: 85,
                     backgroundColor: Colors.black,
                     child: CircleAvatar(
-                      backgroundImage: image ==null ?NetworkImage(userModel.image) :FileImage(image),
+                      backgroundImage: NetworkImage(userModel.image),
+                      // image ==null ? NetworkImage(userModel.image) :FileImage(image),
                       radius: 80,
                     ),
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 4,
-                          ),
-                          color: Colors.blueAccent,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.white70,
-                              blurRadius: 5,
-                            ),
-                          ]),
-                      height: 40,
-                      width: 40,
-                      child: InkWell(
-                        child: Icon(
-                          Icons.edit,
-                          color: Colors.black,
-                        ),
-                        onTap: () {
-                          DB.pickImage();
-
-                        },
-                      ),
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 0,
+                  //   right: 0,
+                  //   child: Container(
+                  //     decoration: BoxDecoration(
+                  //         shape: BoxShape.circle,
+                  //         border: Border.all(
+                  //           color: Colors.white,
+                  //           width: 4,
+                  //         ),
+                  //         color: Colors.blueAccent,
+                  //         boxShadow: [
+                  //           BoxShadow(
+                  //             color: Colors.white70,
+                  //             blurRadius: 5,
+                  //           ),
+                  //         ]),
+                  //     height: 40,
+                  //     width: 40,
+                  //     child: InkWell(
+                  //       child: Icon(
+                  //         Icons.camera_alt,
+                  //         color: Colors.black,
+                  //       ),
+                  //       onTap: () {
+                  //         DB.pickImage();
+                  //
+                  //       },
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -297,22 +306,22 @@ class _Profile extends State<Profile> {
                 Icons.person,
                 color: Colors.black,
               ),
-              trailing: Icon(
-                Icons.edit,
-                color: Colors.black,
-              ),
+              // trailing: Icon(
+              //   Icons.edit,
+              //   color: Colors.black,
+              // ),
             ),
             ListTile(
               title: Text("Phone"),
               subtitle: Text(userModel.phone),
               leading: Icon(
-                Icons.phone,
+                Icons.phone_android,
                 color: Colors.black,
               ),
-              trailing: Icon(
-                Icons.edit,
-                color: Colors.black,
-              ),
+              // trailing: Icon(
+              //   Icons.edit,
+              //   color: Colors.black,
+              // ),
             ),
             ListTile(
               title: Text("E-mail"),
@@ -321,16 +330,24 @@ class _Profile extends State<Profile> {
                 Icons.email,
                 color: Colors.black,
               ),
-              trailing: Icon(
-                Icons.edit,
-                color: Colors.black,
-              ),
+              // trailing: Icon(
+              //   Icons.edit,
+              //   color: Colors.black,
+              // ),
+            ),
+            RaisedButton(
+              onPressed: () {
+                img = userModel.image;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EditProfile(userModel)));
+              },
+              child: Text("Edit Profile"),
             )
           ],
         ),
       ),
     );
   }
-
-
 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedomy/Database/constrain.dart';
+import 'package:hedomy/models/prandModel.dart';
 
 import 'package:hedomy/models/userModel.dart';
 
@@ -16,21 +17,21 @@ signUp(String email, String password, String name, String phone,
       )
       .then((value) => {
             UID = value.user.uid,
-            loadData(value.user.uid, name, phone, email, context),
+            userCreate(value.user.uid, name, phone, email, context),
           })
       .catchError((onError) => {
             print(onError.toString()),
           });
 }
-
-loadData(
+PrandModel prandModel;
+userCreate(
     String id, String name, String phone, String email, BuildContext context) {
   UserModel userModel = UserModel(
     uid: id,
     name: name,
     email: email,
     phone: phone,
-    image: imagePath,
+    image: staticImagePath,
   );
   // print("user ${userModel.toMap()}");
   FirebaseFirestore.instance
@@ -43,6 +44,6 @@ loadData(
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AfterSignIn(userModel))),
+                    builder: (context) => AfterSignIn(userModel,prandModel))),
           });
 }
