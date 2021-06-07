@@ -48,8 +48,10 @@ class EditUserProfile extends State<EditProfile> {
         // ),
         actions: [
          FlatButton(
-            onPressed: () {
-              DB.updateUser(name.text, phone.text,userModel.email,userModel.image,context);
+           autofocus: update,
+            onPressed: ()async {
+
+             await DB.updateUser(name.text, phone.text,userModel.email,userModel.image,context);
             },
             child: Text('Update'),
           ),
@@ -153,46 +155,13 @@ class EditUserProfile extends State<EditProfile> {
               ),
               controller: phone,
             ),
-            // ListTile(
-            //   title: Text("Name"),
-            //   subtitle: Text(userModel.name),
-            //   leading: Icon(
-            //     Icons.person,
-            //     color: Colors.black,
-            //   ),
-            //   trailing: Icon(
-            //     Icons.edit,
-            //     color: Colors.black,
-            //   ),
-            // ),
-            // ListTile(
-            //   title: Text("Phone"),
-            //   subtitle: Text(userModel.phone),
-            //   leading: Icon(
-            //     Icons.phone,
-            //     color: Colors.black,
-            //   ),
-            //   trailing: Icon(
-            //     Icons.edit,
-            //     color: Colors.black,
-            //   ),
-            // ),
-            // ListTile(
-            //   title: Text("E-mail"),
-            //   subtitle: Text(userModel.email),
-            //   leading: Icon(
-            //     Icons.email,
-            //     color: Colors.black,
-            //   ),
-            //   trailing: Icon(
-            //     Icons.edit,
-            //     color: Colors.black,
-            //   ),
-            // ),
+
           ],
         ),
       ),
     );
   }
 
+
 }
+

@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker:
+  fluttertoast: ^8.0.7
   path:
   firebase_database:
   firebase_core: ^1.2.0

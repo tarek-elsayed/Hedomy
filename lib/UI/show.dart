@@ -1,205 +1,104 @@
-// import 'dart:io';
-//
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-// import 'package:hedomy/Database/DB_Helper.dart';
-//
-// class show extends StatefulWidget {
-//   const show({Key key}) : super(key: key);
-//
-//   @override
-//   _showState createState() => _showState();
-// }
-//
-// class _showState extends State<show> {
-//
-//
-//   String r='g1bgaaEGTSZvaCVcy3w30';
-//   DataBaseHelper y=new DataBaseHelper();
-//   List UserInfo = [];
-//   List x = [];
-//   File image;
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     // y.fetchData();
-//   }
-//
-//   // fetchData() async {
-//   //   dynamic result = await DatabaseHelper().fetch1();
-//   //   if (result == null) {
-//   //     print('unable to catch');
-//   //     return CircularProgressIndicator();
-//   //   } else {
-//   //     setState(() {
-//   //       UserInfo = result;
-//   //       print('unable to catchvvvvvvvvvvvvvvv');
-//   //     });
-//   //   }
-//   // }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(
-//           title: Text("Welcome"),
-//         ),
-//         body:null,
-//         // StreamBuilder(
-//         //   stream: y.fetchData(),
-//         //   builder: (BuildContext context ,AsyncSnapshot<QuerySnapshot> snapshot){
-//         //     if(!snapshot.hasData)return Text('Loading');
-//         //     return ListView(
-//         //       children: snapshot.data.docs.map((document) {
-//         //         return Center(
-//         //           child: Container(
-//         //             child: Column(
-//         //               children: [
-//         //                 Text(document['name']),
-//         //                 Text(document['uId']),
-//         //                 Text(document['name']),
-//         //                 Text(document['phone']),
-//         //               ],
-//         //             ),
-//         //           ),
-//         //         );
-//         //       }).toList(),
-//         //
-//         //     );
-//         //   },
-//         // )
-//       // Container(
-//       //   decoration: BoxDecoration(
-//       //       gradient: LinearGradient(
-//       //           begin: Alignment.topCenter,
-//       //           end: Alignment.bottomCenter,
-//       //           colors: [
-//       //         Color(0xff27408b),
-//       //         Color(0x8027408b),
-//       //         Color(0xff27408b),
-//       //       ])),
-//       //   child: ListView.builder(
-//       //       itemCount: UserInfo.length,
-//       //       itemBuilder: (context, index) {
-//       //         return Container(
-//       //           // padding: EdgeInsets.only(top: 40),
-//       //           // decoration: BoxDecoration(
-//       //           //     gradient: LinearGradient(
-//       //           //         begin: Alignment.topCenter,
-//       //           //         end: Alignment.bottomCenter,
-//       //           //         colors: [
-//       //           //           Color(0xff27408b),
-//       //           //           Color(0x8027408b),
-//       //           //           Color(0xff27408b),
-//       //           //         ])),
-//       //           child: Column(
-//       //             children: [
-//       //
-//       //               SizedBox(
-//       //                 height: 25,
-//       //               ),
-//       //               Center(
-//       //                 child: Stack(
-//       //                   children: [
-//       //                     CircleAvatar(
-//       //                       radius: 85,
-//       //                       backgroundColor: Colors.white70,
-//       //                       child: CircleAvatar(
-//       //                         backgroundImage:
-//       //
-//       //                          image == null ? null :  NetworkImage(UserInfo[index]['path']),
-//       //                         radius: 80,
-//       //                       ),
-//       //                     ),
-//       //                     Positioned(
-//       //                       bottom: 0,
-//       //                       right: 0,
-//       //                       child: Container(
-//       //                         decoration: BoxDecoration(
-//       //                             shape: BoxShape.circle,
-//       //                             border: Border.all(
-//       //                               color: Colors.white,
-//       //                               width: 4,
-//       //                             ),
-//       //                             color: Colors.blueAccent,
-//       //                             boxShadow: [
-//       //                               BoxShadow(
-//       //                                 color: Colors.white70,
-//       //                                 blurRadius: 5,
-//       //                               ),
-//       //                             ]),
-//       //                         height: 40,
-//       //                         width: 40,
-//       //                         child: InkWell(
-//       //                           child: Icon(
-//       //                             Icons.edit,
-//       //                             color: Colors.black,
-//       //                           ),
-//       //                           onTap: () {},
-//       //                         ),
-//       //                       ),
-//       //                     ),
-//       //                   ],
-//       //                 ),
-//       //               ),
-//       //               SizedBox(
-//       //                 height: 50,
-//       //               ),
-//       //               ListTile(
-//       //                 title: Text("Name"),
-//       //                 subtitle: Text(UserInfo[index]['name']),
-//       //                 leading: Icon(
-//       //                   Icons.person,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //                 trailing: Icon(
-//       //                   Icons.edit,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //               ),
-//       //               ListTile(
-//       //                 title: Text("Phone"),
-//       //                 subtitle: Text(UserInfo[index]['phone']),
-//       //                 leading: Icon(
-//       //                   Icons.phone,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //                 trailing: Icon(
-//       //                   Icons.edit,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //               ),
-//       //               ListTile(
-//       //                 title: Text("E-mail"),
-//       //                 subtitle: Text(UserInfo[index]['email']),
-//       //                 leading: Icon(
-//       //                   Icons.email,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //                 trailing: Icon(
-//       //                   Icons.edit,
-//       //                   color: Colors.black,
-//       //                 ),
-//       //               )
-//       //             ],
-//       //           ),
-//       //         );
-//       //       }),
-//       // )
-//     );
-//   }
-// // fetch() async {
-// //   final firebaseUser=await FirebaseAuth.instance.currentUser;
-// //   if(firebaseUser!=null)
-// //     await FirebaseFirestore.instance.
-// //     collection("user").doc(firebaseUser.uid)
-// //         .get()
-// //         .then((value){
-// //      return value.data();
-// //     });
-// // }
-// // String name1;
-//
-// }
+
+
+
+import 'package:flutter/material.dart';
+import 'package:hedomy/UI/edit_profile.dart';
+
+import 'package:hedomy/UI/showTshirt.dart';
+
+import 'package:hedomy/models/t-shirtModel.dart';
+
+
+ ShirtModel shirtModel;
+List<ShirtModel> shirtList = DB.shirtList;
+
+class Show extends StatefulWidget{
+  Show(final brandObj1) {
+
+    shirtList = brandObj1;
+  }
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _Show();
+  }
+
+}
+class _Show extends State<Show>{
+  @override
+  void initState() {
+    print('shirt11 ${DB.shirtList.length}');
+    // TODO: implement initState
+    //  DB.showBrand('Town');
+    //
+  }
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+   return Scaffold(
+     appBar: AppBar(
+       centerTitle: true,
+       backgroundColor: Colors.blue[900],
+       title: Text('Hedomy'),
+     ),
+     body: Container(
+       padding: EdgeInsets.only(top: 20),
+       decoration: BoxDecoration(
+         gradient: LinearGradient(
+           begin: Alignment.topCenter,
+           end: Alignment.bottomCenter,
+           colors: [
+             Color(0xff27408b),
+             Color(0x8027408b),
+             Color(0xff27408b),
+           ],
+         ),
+       ),
+       child: ListView.builder(
+         itemCount:shirtList.length,
+         itemBuilder: (context, index) {
+           return Column(
+             children: [
+               Container(
+                 color: Color(0xff848ac6),
+                 height: 100,
+                 width: MediaQuery.of(context).size.width - 50,
+                 child: ListTile(
+                   // onTap: (){
+                   //   Navigator.push(context, MaterialPageRoute(builder: (context)=>ShirtShow()));
+                   // },
+                   title: Text(
+                     "${shirtList[index].name}",
+                     style: TextStyle(fontSize: 24),
+                   ),
+                   subtitle: Stack(
+                     children: [
+                       Text("${shirtList[index].size}",),
+                       Padding(
+                         padding: EdgeInsets.only(top: 22),
+                         child: Text("${shirtList[index].price}"),
+                       ),
+                     ],
+                   ),
+                   leading: CircleAvatar(
+                     backgroundColor: Colors.orange,
+                     // backgroundImage:
+                     // NetworkImage("${brandsList[index].image}"),
+                     radius: 30,
+                   ),
+                 ),
+               ),
+               SizedBox(
+                 height: 20,
+               ),
+             ],
+           );
+         },
+       ),
+     ),
+
+   );
+  }
+
+}

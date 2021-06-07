@@ -4,13 +4,16 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hedomy/UI/aftersignin.dart';
+import 'package:hedomy/UI/show.dart';
 import 'package:hedomy/models/prandModel.dart';
+import 'package:hedomy/models/t-shirtModel.dart';
 import 'package:hedomy/models/userModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'constrain.dart';
 
 UserModel userModel;
 PrandModel prandModel;
+ShirtModel shirtModel;
 
 class DataBaseHelper {
   DataBaseHelper(final userObj) {
@@ -23,7 +26,7 @@ class DataBaseHelper {
     final pickedImage = await picker.getImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       image = File(pickedImage.path);
-        uploadImage();
+      uploadImage();
     } else {
       print('No Image selected');
     }
@@ -34,12 +37,11 @@ class DataBaseHelper {
         .ref()
         .child('users/${Uri.file(image.path).pathSegments.last}')
         .putFile(image)
-        .then((value) {
-      value.ref.getDownloadURL().then((value) {
-
+        .then((value) async {
+      await value.ref.getDownloadURL().then((value) {
         userModel.image = value;
         print('photo ${userModel.image}');
-
+        update = true;
       });
     }).catchError((error) {});
   }
@@ -77,27 +79,40 @@ class DataBaseHelper {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AfterSignIn(userModel,prandModel))),
+                      builder: (context) => AfterSignIn(userModel, shirtList))),
             })
         .catchError((onError) {
       print(onError.toString());
     });
   }
-  List<PrandModel> Users = [];
-   load() async {
-     Users = [];
-    await FirebaseFirestore.instance.collection('brand').get()
-        .then((value) =>
-    {
-      // print('val ${value.docs}')
-      value.docs.forEach((element) {
-       Users.add(PrandModel.fromJson(element.data()));
-        print("3333 ${Users.length}");
-      }),
-    print("2222 ${Users[0].name}"),
-    }
-    );
-    return Users;
 
+  List<PrandModel> brands = [];
+
+  showBrands() async {
+    brands = [];
+    await FirebaseFirestore.instance.collection('brand').get().then((value) => {
+          // print('val ${value.docs}')
+          value.docs.forEach((element) {
+            brands.add(PrandModel.fromJson(element.data()));
+            print("3333 ${brands.length}");
+          }),
+          print("3333 ${brands[0].name}"),
+        });
+    return brands;
+  }
+
+  List<ShirtModel> shirtList = [];
+
+  showShirts(String Name) async {
+    shirtList = [];
+    await FirebaseFirestore.instance.collection(Name).get().then((value) => {
+          value.docs.forEach((element) {
+            print('element ${element.data()}');
+            shirtList.add(ShirtModel.fromJson(element.data()));
+            print("2222 ${shirtList.length}");
+          }),
+          print("2222 ${shirtList[0].name}"),
+        });
+    return shirtList;
   }
 }

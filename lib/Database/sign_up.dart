@@ -44,6 +44,6 @@ userCreate(
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AfterSignIn(userModel,prandModel))),
+                    builder: (context) => AfterSignIn(userModel,shirtModel))),
           });
 }

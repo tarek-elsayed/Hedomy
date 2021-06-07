@@ -2,7 +2,11 @@
 import 'dart:io';
 
 import 'package:hedomy/models/userModel.dart';
-UserModel userModel;
+
+bool update=false;
+
+String N;
+// ignore: non_constant_identifier_names
 String UID = '';
 String staticImagePath =
     'https://monoloop.com/wp-content/uploads/2017/08/photo-1511367461989-f85a21fda167.jpg';
