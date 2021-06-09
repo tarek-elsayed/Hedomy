@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hedomy/Database/DB_Helper.dart';
+import 'package:hedomy/Database/asGuest.dart';
 import 'package:hedomy/Database/sign_in.dart';
 import 'package:hedomy/UI/aftersignin.dart';
+import 'package:hedomy/UI/edit_profile.dart';
 import 'package:hedomy/UI/guest.dart';
 import 'package:hedomy/UI/signup.dart';
-
+import 'package:hedomy/models/prandModel.dart';
+import 'package:hedomy/models/t-shirtModel.dart';
+import 'package:hedomy/models/userModel.dart';
+UserModel userModel;
+ShirtModel shirtModel;
+PrandModel prandModel;
+DataBaseHelper DB=new DataBaseHelper(userModel);
 class login extends StatefulWidget {
   @override
   _loginState createState() => _loginState();
@@ -15,6 +24,7 @@ class login extends StatefulWidget {
 /////////////
 
 class _loginState extends State<login> {
+
   Widget buildEmail() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,7 +131,7 @@ class _loginState extends State<login> {
     );
   }
 
-  Widget buildlogin(context) {
+  Widget buildLogin(context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 40),
       width: double.infinity,
@@ -149,7 +159,7 @@ class _loginState extends State<login> {
     );
   }
 
-  Widget buildsignup(context) {
+  Widget buildSignup(context) {
     return FlatButton(
       onPressed: () {
         Navigator.push(
@@ -165,14 +175,20 @@ class _loginState extends State<login> {
       ),
     );
   }
-
-  Widget buildAsaguest(context) {
+  var ShList1;
+  Widget buildAsaGuest(context) {
     return FlatButton(
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => Guest()),
-        );
+        asGuest(context);
+        // ShList1=  DB.showBrands();
+        // if(ShList1 != null){
+        //   Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => Guest(ShList1)));
+        // } else{
+        //   print('Noooooooooo');
+        // }
+
       },
       child: RichText(
         text: TextSpan(children: [
@@ -186,6 +202,12 @@ class _loginState extends State<login> {
   TextEditingController password = new TextEditingController();
   final _x = GlobalKey<FormState>();
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -235,15 +257,15 @@ class _loginState extends State<login> {
                         SizedBox(
                           height: 20,
                         ),
-                        buildlogin(context),
+                        buildLogin(context),
                         SizedBox(
                           height: 10,
                         ),
-                        buildsignup(context),
+                        buildSignup(context),
                         SizedBox(
                           height: 30,
                         ),
-                        buildAsaguest(context),
+                        buildAsaGuest(context),
                       ],
                     ),
                   ),

@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:hedomy/Database/DB_Helper.dart';
+import 'package:hedomy/Database/constrain.dart';
+import 'package:hedomy/models/t-shirtModel.dart';
+import 'package:hedomy/models/userModel.dart';
 
+
+
+UserModel userModel;
+DataBaseHelper DB = new DataBaseHelper(userModel);
+ShirtModel shirtModel;
+List<ShirtModel> shirtList = DB.shirtsList;
+var shList;
 class ShirtShow extends StatefulWidget {
+
+  ShirtShow(final brandObj1) {
+    shirtList = brandObj1;
+  }
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
@@ -10,13 +25,19 @@ class ShirtShow extends StatefulWidget {
 
 class _ShirtShow extends State<ShirtShow> {
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.blue[900],
-        title: Text('Name'),
+        title: Text('Hedomy'),
       ),
       body: Container(
         height: double.infinity,
@@ -38,13 +59,13 @@ class _ShirtShow extends State<ShirtShow> {
               Container(
                 height: 240,
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount:z.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return ListViewItems(
-                      imageName:
-                          'https://firebasestorage.googleapis.com/v0/b/hedomy-c45eb.appspot.com/o/users%2Fimage_picker1005326101493135718.jpg?alt=media&token=712dcd10-ec7e-429d-a2df-6ea731686613',
-                    );
+                    return
+                        ListViewItems(
+                          imageName:z[index]
+                        );
                   },
                 ),
               ),
@@ -53,19 +74,35 @@ class _ShirtShow extends State<ShirtShow> {
                 thickness: 10,
               ),
               SizedBox(height: 22,),
-              ListTile(
+              Container(
+                height: 240,
+                child: ListView.builder(
+                  itemCount: 1,
 
-                title: Text('Name'),
-                subtitle: Text('polo'),
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text('Name'),
+                          subtitle: Text('${shirtList[index].name}'),
+                        ),
+                        ListTile(
+                          title: Text('Size'),
+                          subtitle: Text('${shirtList[index].size}'),
+                        ),
+                        ListTile(
+                          title: Text('Price'),
+                          subtitle: Text('${shirtList[index].price} L.E'),
+                        ),
+                      ],
+                    );
+
+                  },
+                ),
               ),
-              ListTile(
-                title: Text('Size'),
-                subtitle: Text('2X 3X 4X'),
-              ),
-              ListTile(
-                title: Text('Price'),
-                subtitle: Text('25 L.E'),
-              ),
+
+
+
             ],
           ),
         ),
@@ -84,8 +121,13 @@ class ListViewItems extends StatelessWidget {
     // TODO: implement build
     return Container(
       width: 150,
-      child: ListTile(
-        title: Image.network(imageName),
+      child:Container(
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: NetworkImage(imageName),
+          )
+        ),
       ),
     );
   }

@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hedomy/Database/DB_Helper.dart';
+import 'package:hedomy/UI/aftersignin.dart';
+import 'package:hedomy/UI/show.dart';
+import 'package:hedomy/models/prandModel.dart';
+import 'package:hedomy/models/userModel.dart';
+UserModel userModel;
+DataBaseHelper DB = new DataBaseHelper(userModel);
 
-
+List<PrandModel> brandsList = DB.brands;
 class Guest extends StatefulWidget {
+  Guest(final brandObj1) {
+
+    brandsList = brandObj1;
+  }
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
     return _Guest();
   }
 }
-
 class _Guest extends State<Guest> {
+
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -45,31 +58,79 @@ class _Guest extends State<Guest> {
             )
           ),
           child: ListView.builder(
-           itemCount: 10,
-            itemBuilder: (context,index){
-             return Column(
-               children: [
-                 Container(
-                   color:  Color(0xff848ac6),
-                   height: 100,
-                   width: MediaQuery.of(context).size.width-50,
-                   child: ListTile(
-                     title: Text("Town Team",style: TextStyle(fontSize: 24),),
-                     subtitle: Stack(
-                       children: [
-                         Text("01552639568"),
-                         Padding(padding: EdgeInsets.only(top: 20),child: Text("St Al Haram "),),
+            itemCount: brandsList.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  Container(
+                    color: Color(0xff848ac6),
+                    height: 100,
+                    width: MediaQuery.of(context).size.width - 50,
+                    child: ListTile(
+                      onTap: ()async{
+                        // N="${brandsList[index].name}";
+                        ShList= await DB.showShirts("${brandsList[index].name}");
 
-                       ],
-                     ),
-                     leading:CircleAvatar(backgroundImage:NetworkImage("https://www.marni.com/12/12386489MT_13_n_r.jpg"),radius: 30,),
-                   ),
-                 ),
-                 SizedBox(height: 20,),
-               ],
-             );
+                        print("tarek ${ShList[0].name}");
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Show(ShList)));
+                      },
+                      title: Text(
+                        "${brandsList[index].name}",
+                        style: TextStyle(fontSize: 24),
+                      ),
+                      subtitle: Stack(
+                        children: [
+                          Text("${brandsList[index].phone}"),
+                          Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: Text("${brandsList[index].address}"),
+                          ),
+                        ],
+                      ),
+                      leading: CircleAvatar(
+                        backgroundImage:
+                        NetworkImage("${brandsList[index].image}"),
+                        radius: 30,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              );
             },
           ),
+          // ListView.builder(
+          //  itemCount:DB.brands.length,
+          //   itemBuilder: (context,index){
+          //    return Column(
+          //      children: [
+          //        Container(
+          //          color:  Color(0xff848ac6),
+          //          height: 100,
+          //          width: MediaQuery.of(context).size.width-50,
+          //          child: ListTile(
+          //            title: Text("${brandsList[index].name}",
+          //              style: TextStyle(fontSize: 24),),
+          //            subtitle: Stack(
+          //              children: [
+          //                Text("${brandsList[index].phone}"),
+          //                Padding(padding: EdgeInsets.only(top: 20),child: Text("${brandsList[index].address} "),),
+          //
+          //              ],
+          //            ),
+          //            leading:CircleAvatar(
+          //              backgroundImage:
+          //              NetworkImage("${brandsList[index].image}"),
+          //              radius: 30,),
+          //          ),
+          //        ),
+          //        SizedBox(height: 20,),
+          //      ],
+          //    );
+          //   },
+          // ),
         ),
       ),
     );

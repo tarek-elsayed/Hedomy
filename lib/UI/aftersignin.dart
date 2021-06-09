@@ -17,7 +17,7 @@ UserModel userModel;
 
 
 List<PrandModel> brandsList = DB.brands;
-List<ShirtModel> shirtBrandList = DB.shirtList;
+List<ShirtModel> shirtBrandList = DB.shirtsList;
 DateTime backButtonTime;
 
 class AfterSignIn extends StatefulWidget {
@@ -95,12 +95,6 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
   Future<bool>_onBackPress() async {
     DateTime currentTime = DateTime.now();
 

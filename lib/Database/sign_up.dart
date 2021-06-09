@@ -16,6 +16,8 @@ signUp(String email, String password, String name, String phone,
         password: password,
       )
       .then((value) => {
+            DB.showBrands(),
+            DB.showShirts(N),
             UID = value.user.uid,
             userCreate(value.user.uid, name, phone, email, context),
           })
@@ -23,7 +25,9 @@ signUp(String email, String password, String name, String phone,
             print(onError.toString()),
           });
 }
+
 PrandModel prandModel;
+
 userCreate(
     String id, String name, String phone, String email, BuildContext context) {
   UserModel userModel = UserModel(
@@ -44,6 +48,6 @@ userCreate(
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => AfterSignIn(userModel,shirtModel))),
+                    builder: (context) => AfterSignIn(userModel, shirtModel))),
           });
 }

@@ -79,7 +79,7 @@ class DataBaseHelper {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AfterSignIn(userModel, shirtList))),
+                      builder: (context) => AfterSignIn(userModel, prandModel))),
             })
         .catchError((onError) {
       print(onError.toString());
@@ -88,7 +88,7 @@ class DataBaseHelper {
 
   List<PrandModel> brands = [];
 
-  showBrands() async {
+   showBrands() async {
     brands = [];
     await FirebaseFirestore.instance.collection('brand').get().then((value) => {
           // print('val ${value.docs}')
@@ -97,22 +97,41 @@ class DataBaseHelper {
             print("3333 ${brands.length}");
           }),
           print("3333 ${brands[0].name}"),
+      print("3333 ${brands[1].name}"),
         });
     return brands;
   }
 
+  List<ShirtModel> shirtsList = [];
+
+  showShirts(String name) async {
+    shirtsList = [];
+    await FirebaseFirestore.instance.collection(name).get().then((value) => {
+          value.docs.forEach((element) {
+
+            shirtsList.add(ShirtModel.fromJson(element.data()));
+            print("2222 ${shirtsList.length}");
+          }),
+          print("2222 ${shirtsList[0].name}"),
+        });
+    return shirtsList;
+  }
+
   List<ShirtModel> shirtList = [];
 
-  showShirts(String Name) async {
+  showShirt(String name) async {
     shirtList = [];
-    await FirebaseFirestore.instance.collection(Name).get().then((value) => {
-          value.docs.forEach((element) {
-            print('element ${element.data()}');
-            shirtList.add(ShirtModel.fromJson(element.data()));
-            print("2222 ${shirtList.length}");
-          }),
-          print("2222 ${shirtList[0].name}"),
-        });
+    await FirebaseFirestore.instance.collection(name).get().then((value) => {
+      value.docs.forEach((element) {
+
+        shirtList.add(ShirtModel.fromJson(element.data()));
+        print("1111 ${shirtList.length}");
+      }),
+      z=shirtList[0].images,
+      print("zzzz$z"),
+
+      print("1111 ${shirtList[0].name}"),
+    });
     return shirtList;
   }
 }
